@@ -11,6 +11,16 @@ const Cart = () => {
     0,
   );
 
+  const handleDecrement = (item) => {
+    const currentQty = item.quantity || 1;
+    updateQuantity(item.id, currentQty - 1);
+  };
+
+  const handleIncrement = (item) => {
+    const currentQty = item.quantity || 1;
+    updateQuantity(item.id, currentQty + 1);
+  };
+
   if (!cart || cart.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-16 text-center">
@@ -64,8 +74,9 @@ const Cart = () => {
               <div className="flex items-center gap-2 bg-slate-100 rounded-xl p-1">
                 <button
                   type="button"
-                  onClick={() => updateQuantity && updateQuantity(item.id, -1)}
+                  onClick={() => handleDecrement(item)}
                   className="p-1 hover:bg-white rounded-lg transition-colors text-slate-600"
+                  title="Kurangi"
                 >
                   <Minus size={16} />
                 </button>
@@ -74,8 +85,9 @@ const Cart = () => {
                 </span>
                 <button
                   type="button"
-                  onClick={() => updateQuantity && updateQuantity(item.id, 1)}
+                  onClick={() => handleIncrement(item)}
                   className="p-1 hover:bg-white rounded-lg transition-colors text-slate-600"
+                  title="Tambah"
                 >
                   <Plus size={16} />
                 </button>

@@ -31,22 +31,23 @@ export const CartProvider = ({ children }) => {
       if (existingItem) {
         return prevCart.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: (item.quantity || 1) + qty } // ✅ PERBAIKAN: Gunakan + qty
+            ? { ...item, quantity: (item.quantity || 1) + qty }
             : item,
         );
       }
 
-      return [...prevCart, { ...product, quantity: qty }]; // ✅ PERBAIKAN: Gunakan qty
+      return [...prevCart, { ...product, quantity: qty }];
     });
 
     return true;
   };
 
-  const decreaseQuantity = (id) => {
+  // Fungsi untuk memperbarui kuantitas (tambah / kurang)
+  const updateQuantity = (productId, newQuantity) => {
     setCart((prevCart) =>
       prevCart
         .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
+          item.id === productId ? { ...item, quantity: newQuantity } : item,
         )
         .filter((item) => item.quantity > 0),
     );
@@ -66,7 +67,7 @@ export const CartProvider = ({ children }) => {
         cart,
         setCart,
         addToCart,
-        decreaseQuantity,
+        updateQuantity, // ✅ Menggantikan decreaseQuantity yang error
         removeFromCart,
         clearCart,
       }}
