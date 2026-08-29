@@ -14,6 +14,7 @@ import { useProfileForm } from "../hooks/useProfileForm";
 import ProfileField from "../components/profile/ProfileField";
 
 const Profile = () => {
+  // Ambil data user, state form, dan handler dari custom hook useProfileForm
   const {
     user,
     formData,
@@ -23,6 +24,7 @@ const Profile = () => {
     handleSubmit,
   } = useProfileForm();
 
+  // Validasi: jika belum login, tampilkan pesan peringatan
   if (!user) {
     return (
       <div className="text-center py-20 text-slate-400">
@@ -31,6 +33,7 @@ const Profile = () => {
     );
   }
 
+  // Pilihan dropdown untuk bidang gender
   const genderOptions = [
     { value: "", label: "Pilih Gender" },
     { value: "Laki-laki", label: "Laki-laki" },
@@ -40,7 +43,7 @@ const Profile = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
-        {/* Header Profil */}
+        {/* Header Profil (Avatar, nama, username, dan tombol toggle edit) */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-6 mb-8">
           <div className="flex items-center gap-4">
             <div className="p-4 bg-blue-600/10 border border-blue-500/20 text-blue-400 rounded-2xl">
@@ -56,6 +59,7 @@ const Profile = () => {
             </div>
           </div>
 
+          {/* Tombol alih mode Edit / Batal */}
           {!isEditing ? (
             <button
               type="button"
@@ -75,7 +79,7 @@ const Profile = () => {
           )}
         </div>
 
-        {/* Form Detail Data Profil */}
+        {/* Form isian detail profil pengguna */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <ProfileField
@@ -144,7 +148,7 @@ const Profile = () => {
             />
           </div>
 
-          {/* Tombol Simpan */}
+          {/* Tombol Simpan (hanya muncul saat mode edit aktif) */}
           {isEditing && (
             <div className="pt-4 border-t border-slate-800 flex justify-end">
               <button

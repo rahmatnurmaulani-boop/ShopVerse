@@ -5,12 +5,14 @@ import InputWithIcon from "../components/ui/InputWithIcon";
 import { useSignUpForm } from "../hooks/useSignUpForm";
 
 const SignUp = () => {
+  // Ambil state form registrasi dan handler dari custom hook useSignUpForm
   const { formData, loading, error, handleChange, handleSubmit } =
     useSignUpForm();
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
+        {/* Header Kartu Registrasi */}
         <div className="text-center mb-8">
           <div className="inline-flex p-3 bg-blue-600/10 text-blue-400 rounded-2xl mb-3 border border-blue-500/20">
             <UserPlus size={28} />
@@ -21,12 +23,14 @@ const SignUp = () => {
           </p>
         </div>
 
+        {/* Komponen alert jika terjadi error registrasi */}
         {error && (
           <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-3 rounded-xl mb-6">
             {error}
           </div>
         )}
 
+        {/* Form Pendaftaran User Baru */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <InputWithIcon
             label="Nama Lengkap"
@@ -60,6 +64,7 @@ const SignUp = () => {
             required
           />
 
+          {/* Tombol Submit Registrasi */}
           <div className="pt-2">
             <Button
               type="submit"
@@ -77,6 +82,7 @@ const SignUp = () => {
           </div>
         </form>
 
+        {/* Link Navigasi ke Halaman Login */}
         <p className="text-center text-xs text-slate-400 mt-6">
           Sudah memiliki akun?{" "}
           <Link

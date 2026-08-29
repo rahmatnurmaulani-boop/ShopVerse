@@ -6,7 +6,6 @@ import QuickViewModal from "../components/sections/QuickViewModal";
 import Toast from "../components/ui/Toast";
 import Carousel from "../components/sections/Carousel";
 import BestSellerSection from "../components/sections/BestSellerSection";
-import { useFetch } from "../hooks/useFetch";
 import { useCart } from "../context/CartContext";
 import {
   ITEMS_PER_PAGE,
@@ -14,8 +13,10 @@ import {
   BEST_SELLER_LIMIT,
   TOAST_DURATION,
 } from "../constants/config";
+import { useProducts } from "../hooks/useProducts";
 
 const Home = () => {
+  // State filter, pencarian, paginasi, modal, dan toast
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -24,21 +25,24 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showToast, setShowToast] = useState(false);
 
+  // Ambil data produk dan fungsi keranjang
+  const { products, loading } = useProducts();
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  const endpoint = selectedCategory
-    ? `/products/category/${selectedCategory}`
-    : "/products";
-  const { data: products, loading, error } = useFetch(endpoint);
-
+  // Handler ubah filter harga
   const handlePriceChange = (type, value) => {
     if (type === "min") setMinPrice(value);
     if (type === "max") setMaxPrice(value);
     setCurrentPage(1);
   };
 
+  // Menyaring data produk berdasarkan kategori, kata kunci, dan rentang harga
   const filteredProducts = (products || []).filter((p) => {
+    const matchesCategory = selectedCategory
+      ? p.category === selectedCategory
+      : true;
+
     const matchesSearch = p.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
@@ -48,9 +52,10 @@ const Home = () => {
     const max = maxPrice !== "" ? parseFloat(maxPrice) : Infinity;
     const matchesPrice = price >= min && price <= max;
 
-    return matchesSearch && matchesPrice;
+    return matchesCategory && matchesSearch && matchesPrice;
   });
 
+  // Kalkulasi paginasi halaman
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentProducts = filteredProducts.slice(
@@ -58,6 +63,7 @@ const Home = () => {
     startIndex + ITEMS_PER_PAGE,
   );
 
+  // Handler tambah barang ke keranjang
   const handleAddToCart = (product) => {
     if (addToCart(product)) {
       setShowToast(true);
@@ -69,14 +75,15 @@ const Home = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8 relative">
+      {/* Toast notifikasi */}
       {showToast && (
         <Toast message="Produk berhasil ditambahkan ke keranjang!" />
       )}
 
-      {/* 1. Carousel */}
+      {/* Spanduk Carousel Promosi */}
       <Carousel />
 
-      {/* 2. Best Seller Section */}
+      {/* Seksi Produk Terlaris (Best Seller) */}
       <BestSellerSection
         products={products}
         loading={loading}
@@ -88,7 +95,7 @@ const Home = () => {
         onSelectProduct={setSelectedProduct}
       />
 
-      {/* 3. Main Content */}
+      {/* Konten Utama (Sidebar Filter + Grid Produk) */}
       <div className="flex flex-col md:flex-row gap-8">
         <Sidebar
           selectedCategory={selectedCategory}
@@ -102,6 +109,7 @@ const Home = () => {
         />
 
         <main className="flex-1">
+          {/* Skeleton Loader saat data dimuat */}
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -110,10 +118,6 @@ const Home = () => {
                   className="skeleton h-64 w-full bg-slate-200 rounded-2xl"
                 ></div>
               ))}
-            </div>
-          ) : error ? (
-            <div className="alert alert-error text-white">
-              <span>{error}</span>
             </div>
           ) : currentProducts.length === 0 ? (
             <div className="alert bg-blue-50 text-blue-700 border border-blue-200">
@@ -124,6 +128,7 @@ const Home = () => {
             </div>
           ) : (
             <>
+              {/* Grid Daftar Kartu Produk */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {currentProducts.map((product) => (
                   <ProductCard
@@ -134,6 +139,7 @@ const Home = () => {
                 ))}
               </div>
 
+              {/* Tombol Navigasi Paginasi Halaman */}
               {totalPages > 1 && (
                 <div className="flex justify-center mt-10">
                   <div className="join border border-gray-200 rounded-xl overflow-hidden">
@@ -161,6 +167,7 @@ const Home = () => {
         </main>
       </div>
 
+      {/* Modal Peninjauan Cepat (Quick View) */}
       <QuickViewModal product={selectedProduct} onAddToCart={handleAddToCart} />
     </div>
   );

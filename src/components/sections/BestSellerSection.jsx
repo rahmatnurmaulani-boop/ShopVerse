@@ -17,7 +17,6 @@ const BestSellerSection = ({
     .filter((p) => p.rating?.rate >= ratingThreshold)
     .slice(0, limit);
 
-  // Jangan tampilkan jika sedang loading, sedang memilih kategori, sedang mencari, atau tidak ada data
   if (
     loading ||
     selectedCategory ||

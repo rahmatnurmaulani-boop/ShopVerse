@@ -20,7 +20,6 @@ const UserRow = ({ user, onDelete }) => {
     name = user.name;
   }
 
-  // Formatting Alamat
   let address = "-";
   if (typeof user.address === "object" && user.address !== null) {
     address =

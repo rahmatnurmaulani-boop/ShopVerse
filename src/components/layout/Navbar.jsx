@@ -9,7 +9,7 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-   const getUserDisplayName = () => {
+  const getUserDisplayName = () => {
     if (!user) return "Profil";
 
     if (typeof user.name === "object" && user.name !== null) {
@@ -21,7 +21,6 @@ const Navbar = () => {
     return user.name || user.username || "Profil";
   };
 
-  // Menghitung total item di keranjang
   const totalItems = cart
     ? cart.reduce((sum, item) => sum + (item.quantity || 1), 0)
     : 0;
@@ -40,7 +39,6 @@ const Navbar = () => {
       navigate("/login");
     }
   };
-
 
   return (
     <nav className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-md">

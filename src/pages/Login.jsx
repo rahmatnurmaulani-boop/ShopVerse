@@ -5,6 +5,7 @@ import { Lock, User } from "lucide-react";
 import Button from "../components/ui/Button";
 
 const Login = () => {
+  // State form login (dengan nilai bawaan testing FakeStore API)
   const [username, setUsername] = useState("mor_2314");
   const [password, setPassword] = useState("83r5^_");
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // Handler eksekusi submit form login
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -31,17 +33,20 @@ const Login = () => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
+        {/* Header Kartu Login */}
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-1">Welcome Back</h2>
           <p className="text-slate-400 text-sm">Masuk ke akun Shopverse kamu</p>
         </div>
 
+        {/* Alert jika terjadi kegagalan autentikasi */}
         {error && (
           <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-3 rounded-xl mb-6">
             <span>{error}</span>
           </div>
         )}
 
+        {/* Form Isian Kredensial Pengguna */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
@@ -81,6 +86,7 @@ const Login = () => {
             </div>
           </div>
 
+          {/* Tombol Akses Masuk */}
           <div className="pt-2">
             <Button
               type="submit"
@@ -98,6 +104,7 @@ const Login = () => {
           </div>
         </form>
 
+        {/* Link Navigasi ke Halaman Pendaftaran */}
         <p className="text-center text-xs text-slate-400 mt-6">
           Belum punya akun?{" "}
           <Link

@@ -1,6 +1,9 @@
+// URL dasar endpoint API FakeStore untuk data pengguna
 const BASE_URL = "https://fakestoreapi.com/users";
 
+// Mengambil profil pengguna (mengutamakan localStorage, lalu API FakeStore)
 export const getUserProfile = async (authUser) => {
+  // 1. Cek profil tersimpan di localStorage
   const savedProfile = localStorage.getItem("user_profile");
 
   if (savedProfile) {
@@ -11,15 +14,18 @@ export const getUserProfile = async (authUser) => {
   }
 
   try {
+    // 2. Jika tidak ada di lokal, fetch data pengguna dari API
     const activeUsername = authUser?.username || authUser?.name || "mor_2314";
     const response = await fetch(BASE_URL);
     const users = await response.json();
 
+    // 3. Cari pengguna yang sesuai dengan username yang aktif
     const currentUser =
       users.find(
         (u) => u.username.toLowerCase() === activeUsername.toLowerCase(),
       ) || users[0];
 
+    // 4. Susun struktur data profil lengkap
     const profileData = {
       id: currentUser.id,
       username: activeUsername,
@@ -34,9 +40,11 @@ export const getUserProfile = async (authUser) => {
         : "Jl. Sudirman No. 123, Jakarta",
     };
 
+    // Simpan ke localStorage untuk penggunaan berikutnya
     localStorage.setItem("user_profile", JSON.stringify(profileData));
     return profileData;
   } catch (error) {
+    // 5. Fallback jika jaringan/API mengalami error
     console.error("Gagal mengambil data user:", error);
     const fallbackName = authUser?.username || authUser?.name || "User";
     return {
@@ -51,7 +59,9 @@ export const getUserProfile = async (authUser) => {
   }
 };
 
+// Memperbarui profil pengguna (PUT ke API & simpan ke localStorage)
 export const updateUserProfile = async (userId, formData) => {
+  // Kirim permintaan PUT ke API FakeStore
   await fetch(`${BASE_URL}/${userId || 1}`, {
     method: "PUT",
     body: JSON.stringify({
@@ -60,5 +70,7 @@ export const updateUserProfile = async (userId, formData) => {
       phone: formData.phone,
     }),
   });
+
+  // Perbarui simpanan data di localStorage
   localStorage.setItem("user_profile", JSON.stringify(formData));
 };

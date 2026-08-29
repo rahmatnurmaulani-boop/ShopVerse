@@ -4,23 +4,28 @@ import { useCart } from "../context/CartContext";
 import Button from "../components/ui/Button";
 
 const Cart = () => {
+  // Ambil state dan fungsi manajemen keranjang belanja
   const { cart = [], removeFromCart, updateQuantity, clearCart } = useCart();
 
+  // Hitung akumulasi total harga belanjaan
   const totalPrice = (cart || []).reduce(
     (sum, item) => sum + item.price * (item.quantity || 1),
     0,
   );
 
+  // Handler pengurangan kuantitas barang
   const handleDecrement = (item) => {
     const currentQty = item.quantity || 1;
     updateQuantity(item.id, currentQty - 1);
   };
 
+  // Handler penambahan kuantitas barang
   const handleIncrement = (item) => {
     const currentQty = item.quantity || 1;
     updateQuantity(item.id, currentQty + 1);
   };
 
+  // Tampilan ketika keranjang kosong
   if (!cart || cart.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-16 text-center">
@@ -50,6 +55,7 @@ const Cart = () => {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Daftar item barang di keranjang */}
         <div className="lg:col-span-2 space-y-4">
           {cart.map((item) => (
             <div
@@ -71,6 +77,7 @@ const Cart = () => {
                 </p>
               </div>
 
+              {/* Kontrol Kuantitas Produk */}
               <div className="flex items-center gap-2 bg-slate-100 rounded-xl p-1">
                 <button
                   type="button"
@@ -93,6 +100,7 @@ const Cart = () => {
                 </button>
               </div>
 
+              {/* Tombol Hapus Produk dari Keranjang */}
               <button
                 type="button"
                 onClick={() => removeFromCart && removeFromCart(item.id)}
@@ -104,6 +112,7 @@ const Cart = () => {
             </div>
           ))}
 
+          {/* Tombol Kosongkan Seluruh Keranjang */}
           <button
             type="button"
             onClick={() => clearCart && clearCart()}
@@ -113,6 +122,7 @@ const Cart = () => {
           </button>
         </div>
 
+        {/* Rincian dan Total Tagihan Pembayaran */}
         <div className="bg-white border border-slate-200 text-slate-900 rounded-2xl p-6 h-fit space-y-4 shadow-lg">
           <h2 className="text-lg font-bold border-b border-slate-100 pb-3 text-slate-900">
             Ringkasan Pesanan
