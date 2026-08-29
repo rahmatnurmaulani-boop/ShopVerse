@@ -58,7 +58,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-md">
+    <nav className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-md w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo / Brand - Shopverse */}
         <Link
@@ -145,7 +145,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-slate-300 hover:text-white focus:outline-none rounded-lg hover:bg-slate-800 transition-colors"
+            className="md:hidden p-2 text-slate-300 hover:text-white focus:outline-none rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
             aria-label="Toggle Navigation Menu"
           >
             {isOpen ? (
@@ -202,7 +202,7 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
-            /* Menu Saat User Belum Login (Tombol Masuk & Daftar sekarang di dalam Burger) */
+            /* Menu Saat User Belum Login */
             <div className="flex flex-col space-y-3 pt-1">
               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
                 Akses Akun
