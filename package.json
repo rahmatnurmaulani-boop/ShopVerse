@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://rahmatnurmaulani-boop.github.io/ShopVerse",
+  "homepage": "https://rahmatnurmaulani-boop.github.io/marketplace-app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
