@@ -10,13 +10,9 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   // Pengecekan bug tambahan saat mode dev
   <React.StrictMode>
-    {/* Aktifkan sistem routing URL browser */}
-    <BrowserRouter basename="/ShopVerse">
-      {/* Sediakan data autentikasi user ke seluruh komponen */}
+    <BrowserRouter>
       <AuthProvider>
-        {/* Sediakan data & fungsi keranjang belanja */}
         <CartProvider>
-          {/* Komponen utama aplikasi */}
           <App />
         </CartProvider>
       </AuthProvider>
