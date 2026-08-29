@@ -5,7 +5,6 @@ import App from "./App.jsx";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
 
 // Targetkan root HTML dan jalankan React 18
 ReactDOM.createRoot(document.getElementById("root")).render(
