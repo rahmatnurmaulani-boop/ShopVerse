@@ -6,11 +6,16 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import "./index.css";
 
-// Targetkan root HTML dan jalankan React 18
+const isRootDeployment =
+  window.location.hostname.includes("vercel.app") ||
+  window.location.hostname.includes("netlify.app");
+
+// Jika di GitHub Pages, gunakan '/ShopVerse', jika di Vercel/Netlify gunakan '/'
+const basename = isRootDeployment ? "/" : "/ShopVerse";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // Pengecekan bug tambahan saat mode dev
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <AuthProvider>
         <CartProvider>
           <App />
